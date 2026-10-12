@@ -63,7 +63,7 @@ E.g: ```10;AB400D;00004d;1;OFF;```. Please read documentation to understand the 
 
 ## Changelog
 
-### 2.1.13-rfbuttons.1 (2026-10-12)
+### 2.1.13-rfbuttons.2 (2026-10-12)
 * Add automatic per-channel blind buttons, migration, button reset and correct UP feedback.
 
 ### **WORK IN PROGRESS**

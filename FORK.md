@@ -4,13 +4,13 @@ Upstream: https://github.com/ioBroker/ioBroker.rflink
 
 Fork: https://github.com/zonfacter/ioBroker.rflink
 
-Version: 2.1.13-rfbuttons.1, based on upstream 2.1.12.
+Version: 2.1.13-rfbuttons.2, based on upstream 2.1.12.
 
 ## Install
 
 Use the versioned `.tgz` artifact. In ioBroker Admin, choose **Adapters → Install from own source → From file**. Update the existing RFLink adapter; keep `rflink.0`, its serial settings and objects. Do not delete the adapter or create a second instance for the same serial port.
 
-The equivalent host command is `iobroker url /absolute/path/iobroker.rflink-2.1.13-rfbuttons.1.tgz rflink`.
+The equivalent host command is `iobroker url /absolute/path/iobroker.rflink-2.1.13-rfbuttons.2.tgz rflink`.
 
 Check the installed version and `rflink.0.info.connection` afterward. Set the automatic upgrade policy of **RFLink only** to `none`. Official npm upgrades or reinstallations replace this fork. This does not protect against an explicit manual replacement.
 

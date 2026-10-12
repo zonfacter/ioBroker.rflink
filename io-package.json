@@ -1,9 +1,9 @@
 {
     "common": {
         "name": "rflink",
-        "version": "2.1.13-rfbuttons.1",
+        "version": "2.1.13-rfbuttons.2",
         "news": {
-            "2.1.13-rfbuttons.1": {
+            "2.1.13-rfbuttons.2": {
                 "en": "Create separate UP, STOP and DOWN buttons for every included blind channel; migrate existing blinds and preserve UP feedback.",
                 "de": "Separate HOCH-, STOP- und RUNTER-Tasten pro aufgenommenem Rollladenkanal; vorhandene Kanaele ergaenzen und HOCH-Rueckmeldung korrigieren."
             },
