@@ -6,6 +6,7 @@ var decoders = {
         return value;
     },
     CMD: function (value) {
+        if (value === 'UP') return true;
         if (value.indexOf('SET_LEVEL') !== -1) {
             return parseInt(value.split('=')[1], 10);
         } else {

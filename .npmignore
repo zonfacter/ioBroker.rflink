@@ -8,3 +8,6 @@ test
 .travis.yml
 appveyor.yml
 package-lock.json
+tmp
+dist
+*.tgz

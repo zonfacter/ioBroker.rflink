@@ -10,6 +10,17 @@
 This adapter communicates with [rflink](http://www.nemcon.nl/blog2/) build on arduino mega and RFC 433MHz/866MHz/2.6Gz communication.
 Used for receiving the data from weather sensors and wireless power switches.
 
+## RFLink buttons fork
+
+This fork adds separate momentary UP, STOP and DOWN controls to each included blind channel. Existing blind states and user names are kept. Controls are created automatically at adapter startup and when a new blind is included. An incoming UP command now sets the legacy blind feedback to true, while DOWN sets it to false.
+
+Example: `rflink.0.channels.ShutterRemote40_1.UP_41`, `STOP_41`, `DOWN_41`.
+Write `true` with `ack=false` to trigger a button. A successful serial write resets it to `false` with `ack=true`; this does not confirm motor movement. False and acknowledged writes never trigger these buttons. Previously created short HTR controls (`UP`, `STOP`, `DOWN`) are reused.
+
+Firmware decodes RF telegrams. This adapter stores external device/channel assignments and creates controls. The currently tested HTR008W firmware uses a local profile alias; this adapter does not turn it into a universal HTR decoder.
+
+This is a separately maintained fork, not an official npm release. Install a versioned package from this repository. Keep automatic RFLink upgrades disabled (`automaticUpgrade: none`) and merge upstream updates deliberately. Installing the official npm package replaces the fork. See [FORK.md](FORK.md) for installation and maintenance.
+
 ## Prerequires
 To use serial port on Windows it is VS required to build the binary.
 To use serial port on linux it is build-essential required. To install it just write:
@@ -51,6 +62,10 @@ E.g: ```10;AB400D;00004d;1;OFF;```. Please read documentation to understand the 
 -->
 
 ## Changelog
+
+### 2.1.13-rfbuttons.1 (2026-10-12)
+* Add automatic per-channel blind buttons, migration, button reset and correct UP feedback.
+
 ### **WORK IN PROGRESS**
 - (copilot) Adapter requires node.js >= 22 now
 

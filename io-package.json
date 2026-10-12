@@ -1,8 +1,12 @@
 {
     "common": {
         "name": "rflink",
-        "version": "2.1.12",
+        "version": "2.1.13-rfbuttons.1",
         "news": {
+            "2.1.13-rfbuttons.1": {
+                "en": "Create separate UP, STOP and DOWN buttons for every included blind channel; migrate existing blinds and preserve UP feedback.",
+                "de": "Separate HOCH-, STOP- und RUNTER-Tasten pro aufgenommenem Rollladenkanal; vorhandene Kanaele ergaenzen und HOCH-Rueckmeldung korrigieren."
+            },
             "2.1.12": {
                 "en": "fix serialport",
                 "de": "serielle schnittstelle",
@@ -211,7 +215,9 @@
                 "name": "bluefox",
                 "email": "dogafox@gmail.com"
             }
-        ]
+        ],
+        "automaticUpgrade": "none",
+        "license": "MIT"
     },
     "native": {
         "comName": "",

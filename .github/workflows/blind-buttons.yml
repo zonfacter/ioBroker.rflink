@@ -1,0 +1,22 @@
+name: Blind button checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  buttons:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [22, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run test:buttons
+      - run: npm run test:package
+      - run: npm pack --ignore-scripts

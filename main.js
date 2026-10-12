@@ -6,6 +6,7 @@
 const utils        = require('@iobroker/adapter-core'); // Get common adapter utils
 const adapterName  = require('./package.json').name.split('.').pop();
 const Parses       = require('./admin/parse.js');
+const BlindButtons = require('./lib/blindButtons');
 const Serial       = process.env.DEBUG ? require('./lib/debug.js') : require('./lib/serial.js');
 let adapter;
 const {SerialPort} = require('serialport');
@@ -193,6 +194,26 @@ let presentationDone = false;
 function writeCommand(id, value, callback) {
     let command = '10;' + states[id].native.brand + ';' + Parses.encodeValue('ID', states[id].native.ID) + ';';
 
+    if (states[id].native.fixedCommand !== undefined) {
+        let fixed;
+        try {
+            fixed = BlindButtons.fixedCommandValue(states[id].native, value);
+        } catch (error) {
+            callback && callback(error);
+            return;
+        }
+        if (!fixed) {
+            callback && callback();
+            return;
+        }
+        command += states[id].native.switch + ';' + fixed + ';';
+        if (comm) comm.write(command, err => {
+            if (!err) adapter.setForeignState(id, false, true);
+            callback && callback(err);
+        });
+        return;
+    }
+
     if (states[id].native.attr === 'COLOR') {
         value = value.toString(16);
         if (value.length < 2) value = '0' + value;
@@ -282,6 +303,39 @@ function setInclusionState(val) {
 }
 
 //20;12;Cresta;ID=4D02;TEMP=00c9;HUM=57;BAT=OK;
+function ensureBlindButtons(callback) {
+    const controls = [];
+    for (const id of Object.keys(states)) controls.push(...BlindButtons.createBlindButtons(id, states[id], states));
+    let index = 0;
+    function next() {
+        while (index < controls.length && states[controls[index]._id]) index++;
+        if (index >= controls.length) {
+            callback && callback();
+            return;
+        }
+        const control = controls[index++];
+        adapter.getForeignObject(control._id, (error, existing) => {
+            if (error) {
+                adapter.log.error('Cannot read blind control: ' + error);
+                return next();
+            }
+            if (existing) {
+                states[control._id] = existing;
+                return next();
+            }
+            adapter.setForeignObject(control._id, control, err => {
+                if (err) {
+                    adapter.log.error('Cannot create blind control: ' + err);
+                    return next();
+                }
+                states[control._id] = control;
+                adapter.setForeignState(control._id, false, true, next);
+            });
+        });
+    }
+    next();
+}
+
 function addNewDevice(frame, attrs, callback) {
     let channelObj;
     let index = 0;
@@ -359,7 +413,7 @@ function addNewDevice(frame, attrs, callback) {
             objs  = null;
             _objs = null;
 
-            callback && callback();
+            ensureBlindButtons(callback);
         } else {
             const obj = _objs.pop();
             adapter.getForeignObject(obj._id, (err, oldObj) => {
@@ -690,7 +744,7 @@ function main() {
             // deactivated
             //repairInterval = setInterval(checkAutoRepair, 60000);
 
-            start();
+            ensureBlindButtons(() => start());
         });
     });
 }

@@ -1,6 +1,6 @@
 {
   "name": "iobroker.rflink",
-  "version": "2.1.12",
+  "version": "2.1.13-rfbuttons.1",
   "description": "ioBroker RFLink Adapter",
   "author": {
     "name": "bluefox",
@@ -10,9 +10,12 @@
     {
       "name": "Bluefox",
       "email": "dogafox@gmail.com"
+    },
+    {
+      "name": "zonfacter"
     }
   ],
-  "homepage": "https://github.com/ioBroker/ioBroker.rflink",
+  "homepage": "https://github.com/zonfacter/ioBroker.rflink",
   "license": "MIT",
   "keywords": [
     "ioBroker",
@@ -22,7 +25,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/ioBroker/ioBroker.rflink"
+    "url": "https://github.com/zonfacter/ioBroker.rflink.git"
   },
   "optionalDependencies": {
     "avrgirl-arduino": "^4.2.3"
@@ -44,12 +47,14 @@
     "node": ">=22.0.0"
   },
   "bugs": {
-    "url": "https://github.com/ioBroker/ioBroker.rflink/issues"
+    "url": "https://github.com/zonfacter/ioBroker.rflink/issues"
   },
   "main": "main.js",
   "scripts": {
     "test": "node node_modules/mocha/bin/mocha --exit",
-    "release": "node node_modules/@alcalzone/release-script/bin/release.js"
+    "release": "node node_modules/@alcalzone/release-script/bin/release.js",
+    "test:buttons": "node --test test/blindButtons.test.cjs",
+    "test:package": "node node_modules/mocha/bin/mocha --no-config test/testPackageFiles.js --exit"
   },
   "readmeFilename": "README.md"
 }
